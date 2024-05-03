@@ -1,0 +1,5 @@
+/api-gateway/dist
+*/node_modules
+*/build
+*/coverage
+*/.env
