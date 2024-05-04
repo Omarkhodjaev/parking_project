@@ -8,6 +8,7 @@ import { ILoginData, IUserService } from './interfaces/user.service';
 import { UserEntity } from './entities/user.entity';
 import { ResData } from 'src/lib/resData';
 import { lastValueFrom } from 'rxjs';
+import { log } from 'console';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -43,15 +44,16 @@ export class UserService implements IUserService {
   }
 
   async findOneById(id: number): Promise<ResData<UserEntity>> {
-
     return await this.userService.findOne({ id });
   }
-  update(id: number, dto: UpdateUserDto): Promise<ResData<UserEntity>> {
-    throw new Error('Method not implemented.');
+  async update(id: number, dto: UpdateUserDto): Promise<ResData<UserEntity>> {
+    return await this.userService.update({ id, dto });
   }
-  delete(id: number): Promise<ResData<UserEntity>> {
-    throw new Error('Method not implemented.');
+
+  async delete(id: number): Promise<ResData<UserEntity>> {
+    return await this.userService.remove({ id });
   }
+
   findOneByPhone(phone: string): Promise<ResData<UserEntity>> {
     throw new Error('Method not implemented.');
   }

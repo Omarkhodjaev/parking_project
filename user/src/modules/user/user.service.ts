@@ -81,6 +81,8 @@ export class UserService implements IUserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
+
+    
     const { data: foundData } = await this.findOneById(id);
 
     const updateData = Object.assign(foundData, updateUserDto);

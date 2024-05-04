@@ -8,7 +8,7 @@ service UserService {
     rpc Create (RegisterDto) returns (SingleLoginData) {}
     rpc Login (LoginDto) returns (SingleLoginData) {}
     rpc FindOneByPhone (PhoneDto) returns (SingleData) {}
-    rpc Update (RegisterDto) returns (SingleData){}
+    rpc Update (UpdateDto) returns (SingleData){}
     rpc Remove (ID) returns (SingleData){}
 }
 
@@ -32,7 +32,12 @@ message RegisterDto{
     string phone = 1;
     string password = 2;
     string role = 3;
-    optional string parkId = 4;
+    optional int32 parkId = 4;
+} 
+
+message UpdateDto{
+   int32 id = 1;
+   RegisterDto dto = 2;
 } 
 
 

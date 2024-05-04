@@ -28,12 +28,12 @@ export class UserController {
   }
 
   @GrpcMethod('UserService', 'update')
-  update(@Payload() data: IUpdateUserDto) {
+  update(@Payload() data: any) {
     return this.userService.update(data.id, data.dto);
   }
 
   @GrpcMethod('UserService', 'remove')
-  remove(@Payload() id: number) {
-    return this.userService.delete(id);
+  remove(@Payload() data: { id: number }) {
+    return this.userService.delete(data.id);
   }
 }
