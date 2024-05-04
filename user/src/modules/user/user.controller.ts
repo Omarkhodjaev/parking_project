@@ -1,35 +1,43 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
-import { UserService } from './user.service';
+import { Controller, Inject, UseFilters } from '@nestjs/common';
+import { GrpcMethod, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { AllExceptionsFilter } from 'src/lib/AllExceptionFilter';
+import { IUserService } from './interfaces/user.service';
+import { IUpdateUserDto } from './dto/update-user.dto';
 
 @Controller()
 export class UserController {
-  constructor(private readonly userService: UserService) {}
-
-  @MessagePattern('createUser')
-  create(@Payload() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  constructor(
+    @Inject('IUserService')
+    private readonly userService: IUserService,
+  ) {}
+  @UseFilters(new AllExceptionsFilter())
+  @GrpcMethod('UserService', 'create')
+  async create(@Payload() dto: CreateUserDto) {
+   
+    
+    const a = await this.userService.create(dto);
+    return a
+    
   }
 
-  @MessagePattern('findAllUser')
+  @GrpcMethod('UserService', 'findAll')
   findAll() {
     return this.userService.findAll();
   }
 
-  @MessagePattern('findOneUser')
+  @GrpcMethod('UserService', 'findOne')
   findOne(@Payload() id: number) {
-    return this.userService.findOne(id);
+    return this.userService.findOneById(id);
   }
 
-  @MessagePattern('updateUser')
-  update(@Payload() updateUserDto: UpdateUserDto) {
-    return this.userService.update(updateUserDto.id, updateUserDto);
+  @GrpcMethod('UserService', 'update')
+  update(@Payload() data: IUpdateUserDto) {
+    return this.userService.update(data.id, data.dto);
   }
 
-  @MessagePattern('removeUser')
+  @GrpcMethod('UserService', 'remove')
   remove(@Payload() id: number) {
-    return this.userService.remove(id);
+    return this.userService.delete(id);
   }
 }

@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+    rpc FindOne (ID) returns (SingleData) {}
+    rpc FindAll (Empty) returns (MultipleData) {}
+    rpc Create (RegisterDto) returns (SingleLoginData) {}
+    rpc Login (LoginDto) returns (SingleLoginData) {}
+    rpc FindOneByPhone (PhoneDto) returns (SingleData) {}
+    rpc Update (RegisterDto) returns (SingleData){}
+    rpc Remove (ID) returns (SingleData){}
+}
+
+//paramater
+message ID {
+    int32 id = 1;
+}
+message Empty {}
+
+//dto
+message LoginDto {
+    string phone = 1;
+    string password = 2;
+}
+
+message PhoneDto {
+    string phone = 1;
+}
+
+message RegisterDto{
+    string phone = 1;
+    string password = 2;
+    string role = 3;
+    optional string parkId = 4;
+} 
+
+
+//return data
+message LoginData {
+    User user = 1;
+    string token = 2;
+}
+
+
+message MultipleData {
+    string message = 1;
+    int32 statusCode = 2;
+    repeated User data = 3;
+    Error error = 4;
+}
+
+message SingleData {
+    string message = 1;
+    int32 statusCode = 2;
+    User data = 3;
+    Error error = 4;
+}
+
+message SingleLoginData {
+    string message = 1;
+    int32 statusCode = 2;
+    LoginData data = 3;
+    Error error = 4;
+}
+
+
+
+//entity
+message User {
+    int32 id = 1;
+    string phone = 4; 
+    string password = 5; 
+    string role = 6;
+    optional int32 parkId = 7;
+    string lastEditedAt = 8;
+    string createdAt = 9;
+}
+
+
+
+//Error
+message Error {
+    string errorMessage = 1;
+    int32 errorCode = 2;
+}
