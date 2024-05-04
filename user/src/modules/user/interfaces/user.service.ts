@@ -14,5 +14,5 @@ export interface IUserService {
   update(id: number, dto: UpdateUserDto): Promise<ResData<UserEntity>>;
   delete(id: number): Promise<ResData<UserEntity>>;
   findOneByPhone(phone: string): Promise<ResData<UserEntity | null>>;
-  create(dto: CreateUserDto): Promise<ResData<ILoginData>>;
+  create(dto: CreateUserDto): Promise<ResData<UserEntity>>;
 }

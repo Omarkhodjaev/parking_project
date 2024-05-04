@@ -24,12 +24,20 @@ export class UserService implements IUserService {
     this.userService = this.Userclient.getService('UserService');
   }
 
-  register(dto: CreateUserDto) {
-    const data = this.userService.create({
+  async register(dto: CreateUserDto) {
+    const dataObservable = this.userService.create({
       ...dto,
     });
 
-    return data;
+    const { data: foundUserByPhone } =
+      await lastValueFrom<ResData<UserEntity>>(dataObservable);
+
+    const token = await this.jwtService.signAsync({ id: foundUserByPhone.id });
+
+    return new ResData('User was successfully registered', HttpStatus.CREATED, {
+      user: foundUserByPhone,
+      token,
+    });
   }
 
   async login(dto: LoginDto): Promise<ResData<ILoginData>> {

@@ -21,18 +21,13 @@ export class UserService implements IUserService {
     private jwtService: JwtService,
   ) {}
 
-  async create(dto: CreateUserDto): Promise<ResData<ILoginData>> {
+  async create(dto: CreateUserDto): Promise<ResData<UserEntity>> {
     const data = await this.userRepository.insert(dto);
 
-    const token = await this.jwtService.signAsync({ id: data.id });
-
-    return new ResData<ILoginData>(
+    return new ResData<UserEntity>(
       'User was created successfully',
       HttpStatus.CREATED,
-      {
-        user: data,
-        token,
-      },
+      data,
     );
   }
 
@@ -66,8 +61,6 @@ export class UserService implements IUserService {
 
     return new ResData('Users was found successfully', 200, data);
   }
-
-
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const { data: foundData } = await this.findOneById(id);
