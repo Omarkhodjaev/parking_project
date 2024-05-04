@@ -70,7 +70,7 @@ export class UserService implements IUserService {
   async login(dto: LoginDto): Promise<ResData<ILoginData>> {
     const { data: foundUser } = await this.findOneByPhone(dto.phone);
 
-    if (!foundUser) {
+    if (!foundUser || foundUser.password !== dto.password) {
       throw new LoginOrPasswordWrong();
     }
     const token = await this.jwtService.signAsync({ id: foundUser.id });

@@ -31,6 +31,7 @@ export class UserService implements IUserService {
   async login(dto: LoginDto): Promise<ResData<ILoginData>> {
     const dataObservable = this.userService.login({
       phone: dto.phone,
+      password: dto.password,
     });
 
     const foundUserByPhone: ResData<ILoginData> =

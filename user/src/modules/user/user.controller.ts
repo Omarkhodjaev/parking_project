@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { AllExceptionsFilter } from 'src/lib/AllExceptionFilter';
 import { IUserService } from './interfaces/user.service';
 import { IUpdateUserDto } from './dto/update-user.dto';
+import { LoginDto } from './dto/login-user.dto';
 
 @Controller()
 export class UserController {
@@ -15,6 +16,12 @@ export class UserController {
   @GrpcMethod('UserService', 'create')
   async create(@Payload() dto: CreateUserDto) {
     return await this.userService.create(dto);
+  }
+
+  @GrpcMethod('UserService', 'login')
+  async login(@Payload() dto: LoginDto) {
+    
+    return await this.userService.login(dto);
   }
 
   @GrpcMethod('UserService', 'findAll')
