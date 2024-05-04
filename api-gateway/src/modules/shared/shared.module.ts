@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
+import { UserService } from '../user/user.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { USER_PACKAGE } from 'src/common/const/microservices';
-import { join } from 'path';
-import { config } from 'src/common/config';
+import { USER_SERVICE } from '../../common/const/servers';
+import { config } from '../../common/config';
 import { JwtModule } from '@nestjs/jwt';
-import { SharedModule } from '../shared/shared.module';
+import { JwtStrategy } from './guards/auth/jwtStrategy';
+import { join } from 'path';
+import { USER_PACKAGE } from 'src/common/const/microservices';
 
 @Module({
   imports: [
@@ -22,13 +22,11 @@ import { SharedModule } from '../shared/shared.module';
       },
     ]),
     JwtModule.register({
-      global: true,
       secret: config.jwtKey,
       signOptions: { expiresIn: config.jwtExpiredIn },
     }),
-    SharedModule,
   ],
-  controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, JwtStrategy],
+  exports: [UserService],
 })
-export class UserModule {}
+export class SharedModule {}

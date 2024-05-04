@@ -6,7 +6,6 @@ service UserService {
     rpc FindOne (ID) returns (SingleData) {}
     rpc FindAll (Empty) returns (MultipleData) {}
     rpc Create (RegisterDto) returns (SingleLoginData) {}
-    rpc Login (LoginDto) returns (SingleLoginData) {}
     rpc FindOneByPhone (PhoneDto) returns (SingleData) {}
     rpc Update (UpdateDto) returns (SingleData){}
     rpc Remove (ID) returns (SingleData){}
@@ -19,10 +18,7 @@ message ID {
 message Empty {}
 
 //dto
-message LoginDto {
-    string phone = 1;
-    string password = 2;
-}
+
 
 message PhoneDto {
     string phone = 1;

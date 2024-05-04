@@ -3,4 +3,6 @@ export interface IConfig {
   userServiceUrl: string;
   parkServiceUrl: string;
   transactionServiceUrl: string;
+  jwtKey: string;
+  jwtExpiredIn: string;
 }

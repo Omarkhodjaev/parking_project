@@ -67,19 +67,7 @@ export class UserService implements IUserService {
     return new ResData('Users was found successfully', 200, data);
   }
 
-  async login(dto: LoginDto): Promise<ResData<ILoginData>> {
-    const { data: foundUser } = await this.findOneByPhone(dto.phone);
 
-    if (!foundUser || foundUser.password !== dto.password) {
-      throw new LoginOrPasswordWrong();
-    }
-    const token = await this.jwtService.signAsync({ id: foundUser.id });
-
-    return new ResData('Login successfully', HttpStatus.OK, {
-      user: foundUser,
-      token,
-    });
-  }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const { data: foundData } = await this.findOneById(id);

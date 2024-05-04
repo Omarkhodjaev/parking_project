@@ -18,12 +18,6 @@ export class UserController {
     return await this.userService.create(dto);
   }
 
-  @GrpcMethod('UserService', 'login')
-  async login(@Payload() dto: LoginDto) {
-    
-    return await this.userService.login(dto);
-  }
-
   @GrpcMethod('UserService', 'findAll')
   findAll() {
     return this.userService.findAll();
@@ -32,6 +26,11 @@ export class UserController {
   @GrpcMethod('UserService', 'findOne')
   findOne(@Payload() data: { id: number }) {
     return this.userService.findOneById(data.id);
+  }
+
+  @GrpcMethod('UserService', 'findOneByPhone')
+  findOneByPhone(@Payload() data: { phone: string }) {
+    return this.userService.findOneByPhone(data.phone);
   }
 
   @GrpcMethod('UserService', 'update')

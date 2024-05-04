@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { USER_PACKAGE } from 'src/common/const/microservices';
@@ -8,13 +8,17 @@ import { ILoginData, IUserService } from './interfaces/user.service';
 import { UserEntity } from './entities/user.entity';
 import { ResData } from 'src/lib/resData';
 import { lastValueFrom } from 'rxjs';
-import { log } from 'console';
+import { JwtService } from '@nestjs/jwt';
+import { LoginOrPasswordWrong } from './exception/user.exception';
 
 @Injectable()
 export class UserService implements IUserService {
   private userService: any;
 
-  constructor(@Inject(USER_PACKAGE) private Userclient: ClientGrpc) {}
+  constructor(
+    @Inject(USER_PACKAGE) private Userclient: ClientGrpc,
+    private jwtService: JwtService,
+  ) {}
 
   onModuleInit() {
     this.userService = this.Userclient.getService('UserService');
@@ -29,15 +33,25 @@ export class UserService implements IUserService {
   }
 
   async login(dto: LoginDto): Promise<ResData<ILoginData>> {
-    const dataObservable = this.userService.login({
+    const dataObservable = this.userService.findOneByPhone({
       phone: dto.phone,
-      password: dto.password,
     });
 
-    const foundUserByPhone: ResData<ILoginData> =
-      await lastValueFrom(dataObservable);
+    const { data: foundUserByPhone } =
+      await lastValueFrom<ResData<UserEntity>>(dataObservable);
 
-    return foundUserByPhone;
+    if (!foundUserByPhone || foundUserByPhone.password !== dto.password) {
+      throw new LoginOrPasswordWrong();
+    }
+
+    const token = await this.jwtService.signAsync({ id: foundUserByPhone.id });
+
+    const data = new ResData('User was login successfully', HttpStatus.OK, {
+      user: foundUserByPhone,
+      token,
+    });
+
+    return data;
   }
 
   async findAll() {
