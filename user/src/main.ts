@@ -13,7 +13,7 @@ async function bootstrap() {
       options: {
         package: 'user',
         protoPath: join(__dirname, 'protos/user.proto'),
-        url: 'localhost:7773',
+        url: config.serverPort,
       },
     },
   );

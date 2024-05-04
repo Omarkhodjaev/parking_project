@@ -20,7 +20,6 @@ export class UserService implements IUserService {
   }
 
   register(dto: CreateUserDto) {
-
     const data = this.userService.create({
       ...dto,
     });
@@ -43,8 +42,9 @@ export class UserService implements IUserService {
     return await this.userService.findAll({});
   }
 
-  findOneById(id: number): Promise<ResData<UserEntity>> {
-    throw new Error('Method not implemented.');
+  async findOneById(id: number): Promise<ResData<UserEntity>> {
+
+    return await this.userService.findOne({ id });
   }
   update(id: number, dto: UpdateUserDto): Promise<ResData<UserEntity>> {
     throw new Error('Method not implemented.');

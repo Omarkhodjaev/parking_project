@@ -14,11 +14,7 @@ export class UserController {
   @UseFilters(new AllExceptionsFilter())
   @GrpcMethod('UserService', 'create')
   async create(@Payload() dto: CreateUserDto) {
-   
-    
-    const a = await this.userService.create(dto);
-    return a
-    
+    return await this.userService.create(dto);
   }
 
   @GrpcMethod('UserService', 'findAll')
@@ -27,8 +23,8 @@ export class UserController {
   }
 
   @GrpcMethod('UserService', 'findOne')
-  findOne(@Payload() id: number) {
-    return this.userService.findOneById(id);
+  findOne(@Payload() data: { id: number }) {
+    return this.userService.findOneById(data.id);
   }
 
   @GrpcMethod('UserService', 'update')
