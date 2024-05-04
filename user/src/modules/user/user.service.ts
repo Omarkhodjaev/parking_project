@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import {
   LoginOrPasswordWrong,
   UserNotFoundRpcException,
+  UserPhoneAlreadyException,
 } from './exception/user.exception';
 import { ResData } from 'src/lib/resData';
 import { JwtService } from '@nestjs/jwt';
@@ -81,9 +82,13 @@ export class UserService implements IUserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-
-    
     const { data: foundData } = await this.findOneById(id);
+
+    const { data: foundUser } = await this.findOneByPhone(updateUserDto.phone);
+
+    if (foundUser) {
+      throw new UserPhoneAlreadyException();
+    }
 
     const updateData = Object.assign(foundData, updateUserDto);
 
@@ -94,6 +99,7 @@ export class UserService implements IUserService {
 
   async delete(id: number) {
     const { data: foundData } = await this.findOneById(id);
+
     const data = await this.userRepository.delete(foundData);
 
     return new ResData('User was deleted successfully', 200, data);

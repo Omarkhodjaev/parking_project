@@ -17,3 +17,9 @@ export class UserAlreadyException extends RpcException {
     super('User already exist_$_400');
   }
 }
+
+export class UserPhoneAlreadyException extends RpcException {
+  constructor() {
+    super('User phone already exist_$_400');
+  }
+}
