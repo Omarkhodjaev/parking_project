@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/common/database/baseEntity';
 import { RoleEnum } from 'src/common/types/enums';
-import { Column, Entity } from 'typeorm';
+import { UserDetailEntity } from 'src/modules/user-detail/entities/user-detail.entity';
+import { Column, Entity, OneToOne } from 'typeorm';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -14,7 +15,7 @@ export class UserEntity extends BaseEntity {
   phone: string;
 
   @Column({
-    name: 'code',
+    name: 'password',
     type: 'varchar',
     length: 36,
     nullable: false,
@@ -35,4 +36,7 @@ export class UserEntity extends BaseEntity {
     nullable: true,
   })
   parkId: number;
+
+  @OneToOne(() => UserDetailEntity, (userDetail) => userDetail.user)
+  userDetail: Object;
 }

@@ -2,16 +2,14 @@ import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
-  LoginOrPasswordWrong,
   UserNotFoundRpcException,
   UserPhoneAlreadyException,
 } from './exception/user.exception';
 import { ResData } from 'src/lib/resData';
 import { JwtService } from '@nestjs/jwt';
-import { ILoginData, IUserService } from './interfaces/user.service';
+import { IUserService } from './interfaces/user.service';
 import { UserEntity } from './entities/user.entity';
 import { IUserRepository } from './interfaces/user.repository';
-import { LoginDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService implements IUserService {

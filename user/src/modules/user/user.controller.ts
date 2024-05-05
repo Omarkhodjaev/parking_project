@@ -1,10 +1,8 @@
 import { Controller, Inject, UseFilters } from '@nestjs/common';
-import { GrpcMethod, MessagePattern, Payload } from '@nestjs/microservices';
+import { GrpcMethod, Payload } from '@nestjs/microservices';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AllExceptionsFilter } from 'src/lib/AllExceptionFilter';
 import { IUserService } from './interfaces/user.service';
-import { IUpdateUserDto } from './dto/update-user.dto';
-import { LoginDto } from './dto/login-user.dto';
 
 @Controller()
 export class UserController {

@@ -25,7 +25,10 @@ export class UserDetailController {
 
   @MessagePattern('updateUserDetail')
   update(@Payload() updateUserDetailDto: UpdateUserDetailDto) {
-    return this.userDetailService.update(updateUserDetailDto.id, updateUserDetailDto);
+    return this.userDetailService.update(
+      updateUserDetailDto.id,
+      updateUserDetailDto,
+    );
   }
 
   @MessagePattern('removeUserDetail')

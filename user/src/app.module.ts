@@ -5,13 +5,14 @@ import { UserDetailModule } from './modules/user-detail/user-detail.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from './common/config';
 import { UserEntity } from './modules/user/entities/user.entity';
+import { UserDetailEntity } from './modules/user-detail/entities/user-detail.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: config.dbUrl,
-      entities: [UserEntity],
+      entities: [UserEntity, UserDetailEntity],
       synchronize: false,
     }),
 
