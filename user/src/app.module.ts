@@ -12,7 +12,7 @@ import { UserEntity } from './modules/user/entities/user.entity';
       type: 'postgres',
       url: config.dbUrl,
       entities: [UserEntity],
-      synchronize: true,
+      synchronize: false,
     }),
 
     UserModule,
