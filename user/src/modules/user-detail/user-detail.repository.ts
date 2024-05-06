@@ -12,14 +12,14 @@ export class UserDetailRepository implements IUserDetailRepository {
 
   async insert(dto: CreateUserDetailDto): Promise<UserDetailEntity> {
     const entity = this.userDetailRepository.create(dto);
-    
+
     const newUserDetail = await this.userDetailRepository.save(entity);
 
     return newUserDetail;
   }
 
   async findAll(): Promise<UserDetailEntity[]> {
-    return await this.userDetailRepository.find();
+    return await this.userDetailRepository.find({ relations: ['user'] });
   }
 
   async findOneById(id: number): Promise<UserDetailEntity> {

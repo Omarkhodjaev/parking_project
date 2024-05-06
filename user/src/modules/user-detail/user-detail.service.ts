@@ -15,7 +15,6 @@ export class UserDetailService implements IUserDetailService {
   ) {}
 
   async create(dto: CreateUserDetailDto) {
-    
     const data = await this.userRepository.insert(dto);
 
     return new ResData<UserDetailEntity>(
@@ -26,8 +25,6 @@ export class UserDetailService implements IUserDetailService {
   }
 
   async findAll() {
-    console.log(await this.userRepository.findAll());
-    
     const data = await this.userRepository.findAll();
 
     return new ResData<Array<UserDetailEntity>>(

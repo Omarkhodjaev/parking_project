@@ -22,7 +22,7 @@ message CreateDto{
     string firstName = 1;
     string lastName = 2;
     optional int32 avatar = 3;
-     int32 userId = 4;
+     int32 user = 4;
 } 
 
 message UpdateDto{
@@ -35,7 +35,7 @@ message UpdateDto{
 message MultipleData {
     string message = 1;
     int32 statusCode = 2;
-    repeated UserDetail data = 3;
+    repeated UserDetailWithRelations data = 3;
     Error error = 4;
 }
 
@@ -53,7 +53,27 @@ message UserDetail {
     string firstName = 2; 
     string lastName = 3; 
     optional int32 avatar = 4;
-    int32 userId = 5;
+    int32 user = 5;
+    string createdAt = 6;
+    string lastEditedAt = 7;
+}
+
+message UserDetailWithRelations {
+    int32 id = 1;
+    string firstName = 2; 
+    string lastName = 3; 
+    optional int32 avatar = 4;
+    User user = 5;
+    string createdAt = 6;
+    string lastEditedAt = 7;
+}
+
+message User {
+    int32 id = 1;
+    string phone = 2; 
+    string password = 3; 
+    string role = 4;
+    optional int32 parkId = 5;
     string createdAt = 6;
     string lastEditedAt = 7;
 }

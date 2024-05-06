@@ -14,6 +14,8 @@ export class UserDetailController {
   @UseFilters(new AllExceptionsFilter())
   @GrpcMethod('UserDetailService', 'create')
   async create(@Payload() createUserDetailDto: CreateUserDetailDto) {
+
+    
     
     return this.userDetailService.create(createUserDetailDto);
   }

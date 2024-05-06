@@ -7,5 +7,5 @@ export class CreateUserDetailDto {
 
   avatar: number;
 
-  userId: number;
+  user: number;
 }

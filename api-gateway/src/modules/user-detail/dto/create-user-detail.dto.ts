@@ -33,5 +33,5 @@ export class CreateUserDetailDto {
   })
   @IsNotEmpty()
   @IsNumber()
-  userId: UserEntity;
+  user: number;
 }

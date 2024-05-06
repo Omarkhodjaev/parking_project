@@ -18,6 +18,8 @@ export class UserDetailService {
 
   async create(dto: CreateUserDetailDto) {  
       
+    
+      
     return await this.userDetailService.create({
       ...dto,
     });
