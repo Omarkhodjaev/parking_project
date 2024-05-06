@@ -12,7 +12,7 @@ export class UserDetailRepository implements IUserDetailRepository {
 
   async insert(dto: CreateUserDetailDto): Promise<UserDetailEntity> {
     const entity = this.userDetailRepository.create(dto);
-
+    
     const newUserDetail = await this.userDetailRepository.save(entity);
 
     return newUserDetail;

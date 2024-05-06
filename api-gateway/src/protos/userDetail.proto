@@ -1,12 +1,11 @@
 syntax = "proto3";
 
-package user;
+package userDetail;
 
-service UserService {
+service UserDetailService {
     rpc FindOne (ID) returns (SingleData) {}
     rpc FindAll (Empty) returns (MultipleData) {}
-    rpc Create (RegisterDto) returns (SingleData) {}
-    rpc FindOneByPhone (PhoneDto) returns (SingleData) {}
+    rpc Create (CreateDto) returns (SingleData) {}
     rpc Update (UpdateDto) returns (SingleData){}
     rpc Remove (ID) returns (SingleData){}
 }
@@ -18,49 +17,42 @@ message ID {
 message Empty {}
 
 //dto
-message PhoneDto {
-    string phone = 1;
-}
-
-message RegisterDto{
-    string phone = 1;
-    string password = 2;
-    string role = 3;
-    optional int32 parkId = 4;
+message CreateDto{
+    string firstName = 1;
+    string lastName = 2;
+    optional int32 avatar = 3;
+     int32 userId = 4;
 } 
 
 message UpdateDto{
    int32 id = 1;
-   RegisterDto dto = 2;
+   CreateDto dto = 2;
 } 
 
 
 //return data
-
-
-
 message MultipleData {
     string message = 1;
     int32 statusCode = 2;
-    repeated User data = 3;
+    repeated UserDetail data = 3;
     Error error = 4;
 }
 
 message SingleData {
     string message = 1;
     int32 statusCode = 2;
-    User data = 3;
+    UserDetail data = 3;
     Error error = 4;
 }
 
 
 //entity
-message User {
+message UserDetail {
     int32 id = 1;
-    string phone = 2; 
-    string password = 3; 
-    string role = 4;
-    optional int32 parkId = 5;
+    string firstName = 2; 
+    string lastName = 3; 
+    optional int32 avatar = 4;
+    int32 userId = 5;
     string createdAt = 6;
     string lastEditedAt = 7;
 }

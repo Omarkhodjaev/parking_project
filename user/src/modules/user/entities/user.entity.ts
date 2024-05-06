@@ -37,6 +37,6 @@ export class UserEntity extends BaseEntity {
   })
   parkId: number;
 
-  @OneToOne(() => UserDetailEntity, (userDetail) => userDetail.user)
-  userDetail: Object;
+  @OneToOne(() => UserDetailEntity, (userDetail) => userDetail.userId)
+  userDetail: UserDetailEntity; 
 }

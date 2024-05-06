@@ -6,7 +6,6 @@ import {
   UserPhoneAlreadyException,
 } from './exception/user.exception';
 import { ResData } from 'src/lib/resData';
-import { JwtService } from '@nestjs/jwt';
 import { IUserService } from './interfaces/user.service';
 import { UserEntity } from './entities/user.entity';
 import { IUserRepository } from './interfaces/user.repository';
@@ -16,7 +15,6 @@ export class UserService implements IUserService {
   constructor(
     @Inject('IUserRepository')
     private readonly userRepository: IUserRepository,
-    private jwtService: JwtService,
   ) {}
 
   async create(dto: CreateUserDto): Promise<ResData<UserEntity>> {
@@ -57,7 +55,7 @@ export class UserService implements IUserService {
   async findAll(): Promise<ResData<UserEntity[]>> {
     const data = await this.userRepository.findAll();
 
-    return new ResData('Users was found successfully', 200, data);
+    return new ResData('Users were found successfully', 200, data);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {

@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDetailDto } from './dto/create-user-detail.dto';
+import { Inject, Injectable } from '@nestjs/common';
 import { UpdateUserDetailDto } from './dto/update-user-detail.dto';
+import { UserDetailEntity } from './entities/user-detail.entity';
+import { ResData } from 'src/lib/resData';
+import { USER_PACKAGE } from 'src/common/const/microservices';
+import { ClientGrpc } from '@nestjs/microservices';
+import { CreateUserDetailDto } from './dto/create-user-detail.dto';
 
 @Injectable()
 export class UserDetailService {
-  create(createUserDetailDto: CreateUserDetailDto) {
-    return 'This action adds a new userDetail';
+  private userDetailService: any;
+
+  constructor(@Inject(USER_PACKAGE) private Userclient: ClientGrpc) {}
+
+  onModuleInit() {
+    this.userDetailService = this.Userclient.getService('UserDetailService');
   }
 
-  findAll() {
-    return `This action returns all userDetail`;
+  async create(dto: CreateUserDetailDto) {  
+      
+    return await this.userDetailService.create({
+      ...dto,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userDetail`;
+  async findAll() {
+    return await this.userDetailService.findAll({});
   }
 
-  update(id: number, updateUserDetailDto: UpdateUserDetailDto) {
-    return `This action updates a #${id} userDetail`;
+  async findOneById(id: number): Promise<ResData<UserDetailEntity>> {
+    return await this.userDetailService.findOne({ id });
+  }
+  async update(
+    id: number,
+    dto: UpdateUserDetailDto,
+  ): Promise<ResData<UserDetailEntity>> {
+    return await this.userDetailService.update({ id, dto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userDetail`;
+  async delete(id: number): Promise<ResData<UserDetailEntity>> {
+    return await this.userDetailService.remove({ id });
   }
 }

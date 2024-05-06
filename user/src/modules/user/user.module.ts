@@ -4,18 +4,9 @@ import { UserController } from './user.controller';
 import { UserRepository } from './user.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
-import { JwtModule } from '@nestjs/jwt';
-import { config } from 'src/common/config';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([UserEntity]),
-    JwtModule.register({
-      global: true,
-      secret: config.jwtKey,
-      signOptions: { expiresIn: config.jwtExpiredIn },
-    }),
-  ],
+  imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
   providers: [
     { provide: 'IUserService', useClass: UserService },

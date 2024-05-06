@@ -1,38 +1,40 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
-import { UserDetailService } from './user-detail.service';
+import { Controller, Inject, UseFilters } from '@nestjs/common';
+import { GrpcMethod, MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateUserDetailDto } from './dto/create-user-detail.dto';
 import { UpdateUserDetailDto } from './dto/update-user-detail.dto';
+import { IUserDetailService } from './interfaces/user-detail.service';
+import { AllExceptionsFilter } from 'src/lib/AllExceptionFilter';
 
 @Controller()
 export class UserDetailController {
-  constructor(private readonly userDetailService: UserDetailService) {}
-
-  @MessagePattern('createUserDetail')
-  create(@Payload() createUserDetailDto: CreateUserDetailDto) {
+  constructor(
+    @Inject('IUserDetailService')
+    private readonly userDetailService: IUserDetailService,
+  ) {}
+  @UseFilters(new AllExceptionsFilter())
+  @GrpcMethod('UserDetailService', 'create')
+  async create(@Payload() createUserDetailDto: CreateUserDetailDto) {
+    
     return this.userDetailService.create(createUserDetailDto);
   }
 
-  @MessagePattern('findAllUserDetail')
+  @GrpcMethod('UserDetailService', 'findAll')
   findAll() {
     return this.userDetailService.findAll();
   }
 
-  @MessagePattern('findOneUserDetail')
-  findOne(@Payload() id: number) {
-    return this.userDetailService.findOne(id);
+  @GrpcMethod('UserDetailService', 'findOne')
+  findOne(@Payload() data: { id: number }) {
+    return this.userDetailService.findOneById(data.id);
   }
 
-  @MessagePattern('updateUserDetail')
-  update(@Payload() updateUserDetailDto: UpdateUserDetailDto) {
-    return this.userDetailService.update(
-      updateUserDetailDto.id,
-      updateUserDetailDto,
-    );
+  @GrpcMethod('UserDetailService', 'update')
+  update(@Payload() data: any) {
+    return this.userDetailService.update(data.id, data);
   }
 
-  @MessagePattern('removeUserDetail')
-  remove(@Payload() id: number) {
-    return this.userDetailService.remove(id);
+  @GrpcMethod('UserDetailService', 'remove')
+  remove(@Payload() data: { id: number }) {
+    return this.userDetailService.delete(data.id);
   }
 }
