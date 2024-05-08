@@ -1,7 +1,8 @@
 import { BaseEntity } from 'src/common/database/baseEntity';
 import { RoleEnum } from 'src/common/types/enums';
 import { UserDetailEntity } from 'src/modules/user-detail/entities/user-detail.entity';
-import { Column, Entity, OneToOne } from 'typeorm';
+import { UserTariffEntity } from 'src/modules/user-tariff/entities/user-tariff.entity';
+import { Column, Entity, ManyToMany, OneToOne } from 'typeorm';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -38,5 +39,8 @@ export class UserEntity extends BaseEntity {
   parkId: number;
 
   @OneToOne(() => UserDetailEntity, (userDetail) => userDetail.user)
-  userDetail: UserDetailEntity; 
+  userDetail: UserDetailEntity;
+
+  @ManyToMany(() => UserTariffEntity, (userTariff) => userTariff.user)
+  userTariff: UserTariffEntity[];
 }

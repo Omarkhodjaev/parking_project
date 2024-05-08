@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package park;
+
+service ParkService {
+    rpc FindOne (ID) returns (SingleData) {}
+    rpc FindAll (Empty) returns (MultipleData) {}
+    rpc Create (CreateDto) returns (SingleData) {}
+    rpc Update (UpdateDto) returns (SingleData){}
+    rpc Remove (ID) returns (SingleData){}
+}
+
+//paramater
+message ID {
+    int32 id = 1;
+}
+
+message Empty {}
+
+//dto
+
+
+message CreateDto{
+    string name = 1;
+    optional int32 owner = 2;
+    optional int32 image = 3;
+} 
+
+message UpdateDto{
+   int32 id = 1;
+   CreateDto dto = 2;
+} 
+
+
+//return data
+
+
+
+message MultipleData {
+    string message = 1;
+    int32 statusCode = 2;
+    repeated Park data = 3;
+    Error error = 4;
+}
+
+message SingleData {
+    string message = 1;
+    int32 statusCode = 2;
+    Park data = 3;
+    Error error = 4;
+}
+
+
+//entity
+message Park {
+    int32 id = 1;
+    string name = 2;
+    optional int32 owner = 3;
+    optional int32 image = 4;
+    string createdAt = 5;
+    string lastEditedAt = 6;
+}
+
+
+//Error
+message Error {
+    string errorMessage = 1;
+    int32 errorCode = 2;
+}

@@ -6,13 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from './common/config';
 import { UserEntity } from './modules/user/entities/user.entity';
 import { UserDetailEntity } from './modules/user-detail/entities/user-detail.entity';
+import { UserTariffEntity } from './modules/user-tariff/entities/user-tariff.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: config.dbUrl,
-      entities: [UserEntity, UserDetailEntity],
+      entities: [UserEntity, UserDetailEntity, UserTariffEntity],
       synchronize: false,
     }),
 

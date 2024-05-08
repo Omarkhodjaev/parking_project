@@ -1,35 +1,48 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, Inject, UseFilters } from '@nestjs/common';
+import { GrpcMethod, MessagePattern, Payload } from '@nestjs/microservices';
 import { UserTariffService } from './user-tariff.service';
 import { CreateUserTariffDto } from './dto/create-user-tariff.dto';
-import { UpdateUserTariffDto } from './dto/update-user-tariff.dto';
+import { AllExceptionsFilter } from 'src/lib/AllExceptionFilter';
+import { UserService } from '../user/user.service';
+import { UserEntity } from '../user/entities/user.entity';
+import { UserTariffEntity } from './entities/user-tariff.entity';
 
 @Controller()
 export class UserTariffController {
-  constructor(private readonly userTariffService: UserTariffService) {}
+  constructor(
+    private readonly userTariffService: UserTariffService,
+    @Inject('IUserService')
+    private readonly userService: UserService,
+  ) {}
 
-  @MessagePattern('createUserTariff')
-  create(@Payload() createUserTariffDto: CreateUserTariffDto) {
-    return this.userTariffService.create(createUserTariffDto);
+  @UseFilters(new AllExceptionsFilter())
+  @GrpcMethod('UserTariffService', 'create')
+  async create(@Payload() createUserTariffDto: CreateUserTariffDto) {
+    const { data: foundUser } = await this.userService.findOneById(
+      createUserTariffDto.user,
+    );
+
+    return await this.userTariffService.create(createUserTariffDto, foundUser);
   }
 
-  @MessagePattern('findAllUserTariff')
+  @GrpcMethod('UserTariffService', 'findAll')
   findAll() {
     return this.userTariffService.findAll();
   }
 
-  @MessagePattern('findOneUserTariff')
-  findOne(@Payload() id: number) {
-    return this.userTariffService.findOne(id);
+  @GrpcMethod('UserTariffService', 'findOne')
+  findOne(@Payload() data: { id: number }) {
+    return this.userTariffService.findOneById(data.id);
   }
 
-  @MessagePattern('updateUserTariff')
-  update(@Payload() updateUserTariffDto: UpdateUserTariffDto) {
-    return this.userTariffService.update(updateUserTariffDto.id, updateUserTariffDto);
+  @GrpcMethod('UserTariffService', 'update')
+  update(@Payload() data: { id: number; dto: Partial<UserTariffEntity> }) {
+
+    return this.userTariffService.update(data.id, data.dto);
   }
 
-  @MessagePattern('removeUserTariff')
-  remove(@Payload() id: number) {
-    return this.userTariffService.remove(id);
+  @GrpcMethod('UserTariffService', 'remove')
+  remove(@Payload() data: { id: number }) {
+    return this.userTariffService.delete(data.id);
   }
 }

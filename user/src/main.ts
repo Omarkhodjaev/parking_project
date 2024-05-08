@@ -11,10 +11,11 @@ async function bootstrap() {
     {
       transport: Transport.GRPC,
       options: {
-        package: ['user', 'userDetail'],
+        package: ['user', 'userDetail', 'userTariff'],
         protoPath: [
           join(__dirname, 'protos/user.proto'),
           join(__dirname, 'protos/userDetail.proto'),
+          join(__dirname, 'protos/userTariff.proto'),
         ],
         url: config.serverPort,
       },
