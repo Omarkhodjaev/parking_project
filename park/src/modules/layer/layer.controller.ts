@@ -32,10 +32,8 @@ export class LayerController {
 
   @GrpcMethod('LayerService', 'update')
   async update(@Payload() data: { id: number; dto: Partial<LayerEntity> }) {
-    console.log(data);
-    
     await this.parkService.findOne(Number(data.dto.park));
-    
+
     return this.layerService.update(data.id, data.dto);
   }
 

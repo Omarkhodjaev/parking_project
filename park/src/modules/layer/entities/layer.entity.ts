@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/common/database/baseEntity';
 import { ParkEntity } from 'src/modules/park/entities/park.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { PlaceEntity } from 'src/modules/place/entities/place.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity('layers')
 export class LayerEntity extends BaseEntity {
@@ -15,10 +16,15 @@ export class LayerEntity extends BaseEntity {
   @Column({
     name: 'floor',
     type: 'integer',
-    nullable: this,
+    nullable: true,
   })
   floor: number;
 
   @ManyToOne(() => ParkEntity, (Park) => Park.layers)
+  @JoinColumn({ name: 'park_id' })
   park: ParkEntity;
+
+  @OneToMany(() => PlaceEntity, (place) => place.layer)
+  @JoinColumn({ name: 'place_id' })
+  places: PlaceEntity[];
 }

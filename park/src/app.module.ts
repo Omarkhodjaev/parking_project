@@ -5,18 +5,21 @@ import { ParkModule } from './modules/park/park.module';
 import { ParkEntity } from './modules/park/entities/park.entity';
 import { LayerModule } from './modules/layer/layer.module';
 import { LayerEntity } from './modules/layer/entities/layer.entity';
+import { PlaceModule } from './modules/place/place.module';
+import { PlaceEntity } from './modules/place/entities/place.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: config.dbUrl,
-      entities: [ParkEntity, LayerEntity],
+      entities: [ParkEntity, LayerEntity, PlaceEntity],
       synchronize: false,
     }),
 
     ParkModule,
     LayerModule,
+    PlaceModule,
   ],
 })
 export class AppModule {}

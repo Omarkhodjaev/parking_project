@@ -15,7 +15,7 @@ export class LayerRepository {
   }
 
   async findAll(): Promise<Array<LayerEntity>> {
-    return await this.parkRepository.find();
+    return await this.parkRepository.find({ relations: ['park'] });
   }
 
   async findOneById(id: number): Promise<LayerEntity | null> {
