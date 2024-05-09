@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateLayerDto {
   @ApiProperty({ type: String, example: 'test' })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   name: string;
 
   @ApiProperty({ type: Number, example: 1 })
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   floor: number;
 

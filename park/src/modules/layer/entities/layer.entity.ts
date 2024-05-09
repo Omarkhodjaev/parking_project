@@ -8,14 +8,14 @@ export class LayerEntity extends BaseEntity {
     name: 'name',
     type: 'varchar',
     length: 126,
-    nullable: false,
+    nullable: true,
   })
   name: string;
 
   @Column({
     name: 'floor',
     type: 'integer',
-    nullable: false,
+    nullable: this,
   })
   floor: number;
 
