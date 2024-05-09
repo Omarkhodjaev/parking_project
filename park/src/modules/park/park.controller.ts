@@ -25,6 +25,7 @@ export class ParkController {
 
   @GrpcMethod('ParkService', 'update')
   update(@Payload() data: { dto: Partial<UpdateParkDto>; id: number }) {
+    
     return this.parkService.update(data.id, data.dto);
   }
 

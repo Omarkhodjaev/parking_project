@@ -19,7 +19,7 @@ export class ParkRepository {
     return await this.parkRepository.find();
   }
 
-  async findOneById(id: number): Promise<ParkEntity | null> {
+  async findOneById(id: number ): Promise<ParkEntity | null> {
 
     return await this.parkRepository.findOneBy({ id });
   }

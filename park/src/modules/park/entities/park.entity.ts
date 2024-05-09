@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/common/database/baseEntity';
-import { Column, Entity } from 'typeorm';
+import { LayerEntity } from 'src/modules/layer/entities/layer.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('parks')
 export class ParkEntity extends BaseEntity {
@@ -24,4 +25,7 @@ export class ParkEntity extends BaseEntity {
     nullable: true,
   })
   image: number;
+
+  @OneToMany(() => LayerEntity, (layer) => layer.park)
+  layers: LayerEntity[];
 }

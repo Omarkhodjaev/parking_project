@@ -3,8 +3,15 @@ import { UserModule } from './modules/user/user.module';
 import { UserDetailModule } from './modules/user-detail/user-detail.module';
 import { UserTariffModule } from './modules/user-tariff/user-tariff.module';
 import { ParkModule } from './modules/park/park.module';
+import { LayerModule } from './modules/layer/layer.module';
 
 @Module({
-  imports: [UserModule, UserDetailModule, UserTariffModule, ParkModule],
+  imports: [
+    UserModule,
+    UserDetailModule,
+    UserTariffModule,
+    ParkModule,
+    LayerModule,
+  ],
 })
 export class AppModule {}

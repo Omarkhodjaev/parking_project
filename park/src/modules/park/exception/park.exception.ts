@@ -3,7 +3,7 @@ import { RpcException } from '@nestjs/microservices';
 export class ParkNotFoundRpcException extends RpcException {
   statusCode: number;
   constructor() {
-    super('user not found_$_404');
+    super('Park not found_$_404');
   }
 }
 

@@ -6,13 +6,18 @@ import { join } from 'path';
 import { config } from './common/config';
 
 async function bootstrap() {
+  console.log(__dirname);
+  
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
       transport: Transport.GRPC,
       options: {
-        package: ['park'],
-        protoPath: [join(__dirname, '../src/protos/park.proto')],
+        package: ['park', 'layer'],
+        protoPath: [
+          join(__dirname, '../src/protos/park.proto'),
+          join(__dirname, '../src/protos/layer.proto'),
+        ],
         url: config.serverPort,
       },
     },

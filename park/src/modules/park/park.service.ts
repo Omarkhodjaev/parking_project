@@ -3,8 +3,8 @@ import { CreateParkDto } from './dto/create-park.dto';
 import { UpdateParkDto } from './dto/update-park.dto';
 import { ParkRepository } from './park.repository';
 import { ResData } from 'src/lib/resData';
-import { ParkEntity } from './entities/park.entity';
 import { ParkNotFoundRpcException } from './exception/park.exception';
+import { ParkEntity } from './entities/park.entity';
 
 @Injectable()
 export class ParkService {
@@ -26,7 +26,7 @@ export class ParkService {
     return new ResData('Parks were successfully found', HttpStatus.OK, data);
   }
 
-  async findOne(id: number) {
+  async findOne(id: number ) {
     const data = await this.parkRepository.findOneById(id);
 
     if (!data) {

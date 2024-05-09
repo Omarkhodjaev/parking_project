@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package layer;
+
+service LayerService {
+    rpc FindOne (ID) returns (SingleData) {}
+    rpc FindAll (Empty) returns (MultipleData) {}
+    rpc Create (CreateDto) returns (SingleData) {}
+    rpc Update (UpdateDto) returns (SingleData){}
+    rpc Remove (ID) returns (SingleData){}
+}
+
+//paramater
+message ID {
+    int32 id = 1;
+}
+
+message Empty {}
+
+//dto
+
+
+message CreateDto{
+    string name = 1;
+    int32 floor = 2;
+    int32 park = 3;
+} 
+
+message UpdateDto{
+   int32 id = 1;
+   CreateDto dto = 2;
+} 
+
+
+//return data
+
+
+
+message MultipleData {
+    string message = 1;
+    int32 statusCode = 2;
+    repeated Layer data = 3;
+    Error error = 4;
+}
+
+message SingleData {
+    string message = 1;
+    int32 statusCode = 2;
+    Layer data = 3;
+    Error error = 4;
+}
+
+
+//entity
+message Layer {
+    int32 id = 1;
+    string name = 2;
+    int32 floor = 3;
+    int32 park = 4;
+    string createdAt = 5;
+    string lastEditedAt = 6;
+}
+
+
+//Error
+message Error {
+    string errorMessage = 1;
+    int32 errorCode = 2;
+}
