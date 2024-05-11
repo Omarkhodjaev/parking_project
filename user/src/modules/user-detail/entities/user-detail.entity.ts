@@ -1,6 +1,5 @@
 import { BaseEntity } from 'src/common/database/baseEntity';
-import { UserEntity } from 'src/modules/user/entities/user.entity';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 
 @Entity('user_details')
 export class UserDetailEntity extends BaseEntity {
@@ -27,7 +26,10 @@ export class UserDetailEntity extends BaseEntity {
   })
   avatar: number;
 
-  @OneToOne(() => UserEntity, (user) => user.userDetail)
-  @JoinColumn({ name: 'user_id' })
+  @Column({
+    name: 'user_id',
+    type: 'integer',
+    nullable: false,
+  })
   user: number;
 }

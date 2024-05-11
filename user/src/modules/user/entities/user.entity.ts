@@ -37,10 +37,4 @@ export class UserEntity extends BaseEntity {
     nullable: true,
   })
   parkId: number;
-
-  @OneToOne(() => UserDetailEntity, (userDetail) => userDetail.user)
-  userDetail: UserDetailEntity;
-
-  @ManyToMany(() => UserTariffEntity, (userTariff) => userTariff.user)
-  userTariff: UserTariffEntity[];
 }

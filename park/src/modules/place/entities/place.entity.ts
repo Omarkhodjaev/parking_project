@@ -19,7 +19,10 @@ export class PlaceEntity extends BaseEntity {
   })
   price: number;
 
-  @ManyToOne(() => LayerEntity, (layer) => layer.places)
-  @JoinColumn({ name: 'layer_id' })
-  layer: LayerEntity;
+  @Column({
+    name: 'layer_id',
+    type: 'integer',
+    nullable: false,
+  })
+  layer: number;
 }

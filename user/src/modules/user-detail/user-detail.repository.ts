@@ -20,7 +20,7 @@ export class UserDetailRepository implements IUserDetailRepository {
   }
 
   async findAll(): Promise<UserDetailEntity[]> {
-    return await this.userDetailRepository.find({ relations: ['user'] });
+    return await this.userDetailRepository.find();
   }
 
   async findOneById(id: number): Promise<UserDetailEntity> {

@@ -15,7 +15,7 @@ export class PlaceRepository {
   }
 
   async findAll(): Promise<Array<PlaceEntity>> {
-    return await this.placeRepository.find({ relations: ['layer'] });
+    return await this.placeRepository.find();
   }
 
   async findOneById(id: number): Promise<PlaceEntity | null> {

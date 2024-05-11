@@ -1,27 +1,33 @@
 import { BaseEntity } from 'src/common/database/baseEntity';
 import { Column, Entity } from 'typeorm';
 
-@Entity('layers')
-export class LayerEntity extends BaseEntity {
+@Entity('tariffs')
+export class TariffEntity extends BaseEntity {
   @Column({
     name: 'name',
     type: 'varchar',
-    length: 126,
-    nullable: true,
+    nullable: false,
   })
   name: string;
 
   @Column({
-    name: 'floor',
+    name: 'price',
     type: 'integer',
-    nullable: true,
+    nullable: false,
   })
-  floor: number;
+  price: number;
+
+  @Column({
+    name: 'time',
+    type: 'varchar',
+    nullable: false,
+  })
+  time: string;
 
   @Column({
     name: 'park_id',
     type: 'integer',
-    nullable: false,
+    nullable: true,
   })
   park: number;
 }

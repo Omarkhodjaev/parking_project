@@ -35,7 +35,7 @@ message UpdateDto{
 message MultipleData {
     string message = 1;
     int32 statusCode = 2;
-    repeated UserTariffWithRelations data = 3;
+    repeated UserTariff data = 3;
     Error error = 4;
 }
 
@@ -58,25 +58,6 @@ message UserTariff {
     string lastEditedAt = 7;
 }
 
-message UserTariffWithRelations {
-    int32 id = 1;
-    User user = 2; 
-    int32 tariff = 3; 
-    string startedAt = 4;
-    string endedAt = 5;
-    string createdAt = 6;
-    string lastEditedAt = 7;
-}
-
-message User {
-    int32 id = 1;
-    string phone = 2; 
-    string password = 3; 
-    string role = 4;
-    optional int32 parkId = 5;
-    string createdAt = 6;
-    string lastEditedAt = 7;
-}
 
 
 //Error

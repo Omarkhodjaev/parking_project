@@ -5,6 +5,7 @@ import { UserTariffModule } from './modules/user-tariff/user-tariff.module';
 import { ParkModule } from './modules/park/park.module';
 import { LayerModule } from './modules/layer/layer.module';
 import { PlaceModule } from './modules/place/place.module';
+import { TariffModule } from './modules/tariff/tariff.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PlaceModule } from './modules/place/place.module';
     ParkModule,
     LayerModule,
     PlaceModule,
+    TariffModule,
   ],
 })
 export class AppModule {}

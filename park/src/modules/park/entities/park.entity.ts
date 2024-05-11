@@ -26,6 +26,4 @@ export class ParkEntity extends BaseEntity {
   })
   image: number;
 
-  @OneToMany(() => LayerEntity, (layer) => layer.park)
-  layers: LayerEntity[];
 }

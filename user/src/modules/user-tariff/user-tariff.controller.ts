@@ -22,7 +22,7 @@ export class UserTariffController {
       createUserTariffDto.user,
     );
 
-    return await this.userTariffService.create(createUserTariffDto, foundUser);
+    return await this.userTariffService.create(createUserTariffDto, foundUser.id);
   }
 
   @GrpcMethod('UserTariffService', 'findAll')

@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package userDetail;
+package tariff;
 
-service UserDetailService {
+service TariffService {
     rpc FindOne (ID) returns (SingleData) {}
     rpc FindAll (Empty) returns (MultipleData) {}
     rpc Create (CreateDto) returns (SingleData) {}
@@ -18,11 +18,13 @@ message ID {
 message Empty {}
 
 //dto
+
+
 message CreateDto{
-    string firstName = 1;
-    string lastName = 2;
-    optional int32 avatar = 3;
-     int32 user = 4;
+    string name = 1;
+    int32 park = 2;
+    int32 price = 3;
+    string time = 4;
 } 
 
 message UpdateDto{
@@ -32,28 +34,29 @@ message UpdateDto{
 
 
 //return data
+
 message MultipleData {
     string message = 1;
     int32 statusCode = 2;
-    repeated UserDetail data = 3;
+    repeated Tariff data = 3;
     Error error = 4;
 }
 
 message SingleData {
     string message = 1;
     int32 statusCode = 2;
-    UserDetail data = 3;
+    Tariff data = 3;
     Error error = 4;
 }
 
 
 //entity
-message UserDetail {
+message Tariff {
     int32 id = 1;
-    string firstName = 2; 
-    string lastName = 3; 
-    optional int32 avatar = 4;
-    int32 user = 5;
+    string name = 2;
+    int32 park = 3;
+    int32 price = 4;
+    string time = 5;
     string createdAt = 6;
     string lastEditedAt = 7;
 }

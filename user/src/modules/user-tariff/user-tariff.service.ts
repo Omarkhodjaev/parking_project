@@ -13,15 +13,14 @@ export class UserTariffService {
 
   async create(
     dto: CreateUserTariffDto,
-    user: UserEntity,
+    user: number,
   ): Promise<ResData<UserTariffEntity>> {
     const entity = new UserTariffEntity();
 
     entity.tariff = dto.tariff;
     entity.startedAt = dto.startedAt;
     entity.endedAt = dto.endedAt;
-    entity.user = [];
-    entity.user.push(user);
+    entity.user = user
 
     const data = await this.userTariffRepository.insert(entity);
 

@@ -1,6 +1,4 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { CreateLayerDto } from './dto/create-layer.dto';
-import { UpdateLayerDto } from './dto/update-layer.dto';
 import { ResData } from 'src/lib/resData';
 import { LayerNotFoundRpcException } from './exception/layer.exception';
 import { LayerRepository } from './layer.repository';
@@ -39,7 +37,6 @@ export class LayerService {
   async update(id: number, updateLayerDto: Partial<LayerEntity>) {
     const { data: foundLayer } = await this.findOne(id);
 
- 
     const updateData = Object.assign(foundLayer, updateLayerDto);
 
     const data = await this.layerRepository.update(updateData);
