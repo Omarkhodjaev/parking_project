@@ -5,7 +5,6 @@ import { USER_PACKAGE } from 'src/common/const/microservices';
 import { ClientGrpc } from '@nestjs/microservices';
 import { ResData } from 'src/lib/resData';
 import { UserTariffEntity } from './entities/user-tariff.entity';
-import { log } from '@grpc/grpc-js/build/src/logging';
 import { Cache } from '@nestjs/cache-manager';
 import { RedisKeys } from 'src/common/types/enums';
 
