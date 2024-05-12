@@ -4,16 +4,21 @@ import { CreateUserDetailDto } from './dto/create-user-detail.dto';
 import { UpdateUserDetailDto } from './dto/update-user-detail.dto';
 import { IUserDetailService } from './interfaces/user-detail.service';
 import { AllExceptionsFilter } from 'src/lib/AllExceptionFilter';
+import { IUserService } from '../user/interfaces/user.service';
 
 @Controller()
 export class UserDetailController {
   constructor(
     @Inject('IUserDetailService')
     private readonly userDetailService: IUserDetailService,
+    @Inject('IUserService')
+    private readonly userService: IUserService,
   ) {}
-  @UseFilters(new AllExceptionsFilter())
+
   @GrpcMethod('UserDetailService', 'create')
   async create(@Payload() createUserDetailDto: CreateUserDetailDto) {
+    await this.userService.findOneById(createUserDetailDto.user);
+
     return this.userDetailService.create(createUserDetailDto);
   }
 
@@ -28,7 +33,9 @@ export class UserDetailController {
   }
 
   @GrpcMethod('UserDetailService', 'update')
-  update(@Payload() data: any) {
+  async update(@Payload() data: any) {
+    await this.userService.findOneById(data.dto.user);
+
     return this.userDetailService.update(data.id, data);
   }
 

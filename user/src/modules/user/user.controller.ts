@@ -41,7 +41,15 @@ export class UserController {
   }
 
   @GrpcMethod('UserService', 'update')
-  update(@Payload() data: any) {
+  async update(@Payload() data: any) {
+    const { data: foundUser } = await this.userService.findOneByPhone(
+      data.dto.phone,
+    );
+
+    if (foundUser) {
+      throw new UserAlreadyException();
+    }
+
     return this.userService.update(data.id, data.dto);
   }
 

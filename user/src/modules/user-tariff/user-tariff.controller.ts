@@ -22,7 +22,10 @@ export class UserTariffController {
       createUserTariffDto.user,
     );
 
-    return await this.userTariffService.create(createUserTariffDto, foundUser.id);
+    return await this.userTariffService.create(
+      createUserTariffDto,
+      foundUser.id,
+    );
   }
 
   @GrpcMethod('UserTariffService', 'findAll')
@@ -36,7 +39,10 @@ export class UserTariffController {
   }
 
   @GrpcMethod('UserTariffService', 'update')
-  update(@Payload() data: { id: number; dto: Partial<UserTariffEntity> }) {
+  async update(
+    @Payload() data: { id: number; dto: Partial<UserTariffEntity> },
+  ) {
+    await this.userService.findOneById(data.dto.user);
 
     return this.userTariffService.update(data.id, data.dto);
   }
