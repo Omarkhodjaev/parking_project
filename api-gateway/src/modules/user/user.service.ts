@@ -10,14 +10,18 @@ import { ResData } from 'src/lib/resData';
 import { lastValueFrom } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { LoginOrPasswordWrong } from './exception/user.exception';
+import { RedisKeys } from 'src/common/types/enums';
+import { Cache } from '@nestjs/cache-manager';
 
 @Injectable()
-export class UserService implements IUserService {
+export class UserService {
   private userService: any;
 
   constructor(
     @Inject(USER_PACKAGE) private Userclient: ClientGrpc,
     private jwtService: JwtService,
+    @Inject('CACHE_MANAGER')
+    private cacheManager: Cache,
   ) {}
 
   onModuleInit() {
@@ -33,6 +37,8 @@ export class UserService implements IUserService {
       await lastValueFrom<ResData<UserEntity>>(dataObservable);
 
     const token = await this.jwtService.signAsync({ id: foundUserByPhone.id });
+
+    await this.deleteDataInRedis(RedisKeys.ALL_USERS);
 
     return new ResData('User was successfully registered', HttpStatus.CREATED, {
       user: foundUserByPhone,
@@ -68,17 +74,18 @@ export class UserService implements IUserService {
 
   async findOneById(id: number) {
     return await this.userService.findOne({ id });
-    
   }
   async update(id: number, dto: UpdateUserDto): Promise<ResData<UserEntity>> {
+    await this.deleteDataInRedis(RedisKeys.ALL_USERS);
     return await this.userService.update({ id, dto });
   }
 
   async delete(id: number): Promise<ResData<UserEntity>> {
+    await this.deleteDataInRedis(RedisKeys.ALL_USERS);
     return await this.userService.remove({ id });
   }
 
-  findOneByPhone(phone: string): Promise<ResData<UserEntity>> {
-    throw new Error('Method not implemented.');
+  private async deleteDataInRedis(key: RedisKeys) {
+    await this.cacheManager.del(key);
   }
 }

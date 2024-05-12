@@ -10,4 +10,6 @@ export const config: IConfig = {
   transactionServiceUrl: String(process.env.TRANSACTION_SERVICE_URL),
   jwtKey: String(process.env.JWT_KEy),
   jwtExpiredIn: String(process.env.JWT_EXPIRED_IN),
+  redisHost: String(process.env.REDIS_HOST),
+  redisPort: Number(process.env.REDIS_PORT),
 };

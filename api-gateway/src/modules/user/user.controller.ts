@@ -8,6 +8,7 @@ import {
   Delete,
   ParseIntPipe,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,9 +16,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login-user.dto';
 import { RoleDecorator } from 'src/common/decorator/rolesDecorator';
-import { RoleEnum } from 'src/common/types/enums';
+import { RedisKeys, RoleEnum } from 'src/common/types/enums';
 import { JwtAuthGuard } from '../shared/guards/auth/jwt-auth.guard';
 import { RolesGuard } from '../shared/guards/role.guard';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @ApiTags('user-service')
 @Controller('user')
@@ -36,6 +38,9 @@ export class UserController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey(RedisKeys.ALL_USERS)
+  @CacheTTL(0)
   @Get()
   findAll() {
     return this.userService.findAll();

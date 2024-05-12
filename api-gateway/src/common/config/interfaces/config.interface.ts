@@ -5,4 +5,6 @@ export interface IConfig {
   transactionServiceUrl: string;
   jwtKey: string;
   jwtExpiredIn: string;
+  redisHost: string;
+  redisPort: number;
 }
