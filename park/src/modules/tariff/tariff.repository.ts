@@ -13,6 +13,7 @@ export class TariffRepository {
   }
 
   async findAll(): Promise<Array<TariffEntity>> {
+    
     return await this.tariffRepository.find();
   }
 

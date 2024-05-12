@@ -9,13 +9,21 @@ import { PlaceModule } from './modules/place/place.module';
 import { PlaceEntity } from './modules/place/entities/place.entity';
 import { TariffModule } from './modules/tariff/tariff.module';
 import { TariffEntity } from './modules/tariff/entities/tariff.entity';
+import { ServiceModule } from './modules/service/service.module';
+import { ServiceEntity } from './modules/service/entities/service.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: config.dbUrl,
-      entities: [ParkEntity, LayerEntity, PlaceEntity, TariffEntity],
+      entities: [
+        ParkEntity,
+        LayerEntity,
+        PlaceEntity,
+        TariffEntity,
+        ServiceEntity,
+      ],
       synchronize: false,
     }),
 
@@ -23,6 +31,7 @@ import { TariffEntity } from './modules/tariff/entities/tariff.entity';
     LayerModule,
     PlaceModule,
     TariffModule,
+    ServiceModule,
   ],
 })
 export class AppModule {}

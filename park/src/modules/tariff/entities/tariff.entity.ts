@@ -19,10 +19,10 @@ export class TariffEntity extends BaseEntity {
 
   @Column({
     name: 'time',
-    type: 'varchar',
+    type: 'date',
     nullable: false,
   })
-  time: string;
+  time: Date;
 
   @Column({
     name: 'park_id',
