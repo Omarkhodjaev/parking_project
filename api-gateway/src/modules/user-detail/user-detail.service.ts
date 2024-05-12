@@ -5,21 +5,25 @@ import { ResData } from 'src/lib/resData';
 import { USER_PACKAGE } from 'src/common/const/microservices';
 import { ClientGrpc } from '@nestjs/microservices';
 import { CreateUserDetailDto } from './dto/create-user-detail.dto';
+import { Cache } from '@nestjs/cache-manager';
+import { RedisKeys } from 'src/common/types/enums';
 
 @Injectable()
 export class UserDetailService {
   private userDetailService: any;
 
-  constructor(@Inject(USER_PACKAGE) private Userclient: ClientGrpc) {}
+  constructor(
+    @Inject(USER_PACKAGE) private Userclient: ClientGrpc,
+    @Inject('CACHE_MANAGER')
+    private cacheManager: Cache,
+  ) {}
 
   onModuleInit() {
     this.userDetailService = this.Userclient.getService('UserDetailService');
   }
 
-  async create(dto: CreateUserDetailDto) {  
-      
-    
-      
+  async create(dto: CreateUserDetailDto) {
+    await this.deleteDataInRedis(RedisKeys.ALL_USER_DETAILS);
     return await this.userDetailService.create({
       ...dto,
     });
@@ -36,10 +40,17 @@ export class UserDetailService {
     id: number,
     dto: UpdateUserDetailDto,
   ): Promise<ResData<UserDetailEntity>> {
+    await this.deleteDataInRedis(RedisKeys.ALL_USER_DETAILS);
     return await this.userDetailService.update({ id, dto });
   }
 
   async delete(id: number): Promise<ResData<UserDetailEntity>> {
+    await this.deleteDataInRedis(RedisKeys.ALL_USER_DETAILS);
+
     return await this.userDetailService.remove({ id });
+  }
+
+  private async deleteDataInRedis(key: RedisKeys) {
+    await this.cacheManager.del(key);
   }
 }
