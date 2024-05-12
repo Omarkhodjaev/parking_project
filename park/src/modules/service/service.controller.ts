@@ -15,7 +15,6 @@ export class ServiceController {
 
   @GrpcMethod('ServiceService', 'findAll')
   async findAll() {
-    console.log(await this.ServiceService.findAll());
     
     return this.ServiceService.findAll();
   }

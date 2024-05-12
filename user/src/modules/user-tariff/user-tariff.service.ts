@@ -20,7 +20,7 @@ export class UserTariffService {
     entity.tariff = dto.tariff;
     entity.startedAt = dto.startedAt;
     entity.endedAt = dto.endedAt;
-    entity.user = user
+    entity.user = user;
 
     const data = await this.userTariffRepository.insert(entity);
 
@@ -55,8 +55,6 @@ export class UserTariffService {
     const { data: foundData } = await this.findOneById(id);
 
     const updateData = Object.assign(foundData, updateUserTariffDto);
-
-    console.log(updateData);
 
     const data = await this.userTariffRepository.update(updateData);
 
