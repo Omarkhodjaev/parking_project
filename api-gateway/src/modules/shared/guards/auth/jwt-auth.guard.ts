@@ -10,6 +10,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
   handleRequest<ICurrentUser>(err: any, user: ICurrentUser) {
     // You can throw an exception based on either "info" or "err" arguments
+    
     if (err || !user) {
       throw new UnauthorizedException();
     }

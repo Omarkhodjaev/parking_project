@@ -66,8 +66,9 @@ export class UserService implements IUserService {
     return await this.userService.findAll({});
   }
 
-  async findOneById(id: number): Promise<ResData<UserEntity>> {
+  async findOneById(id: number) {
     return await this.userService.findOne({ id });
+    
   }
   async update(id: number, dto: UpdateUserDto): Promise<ResData<UserEntity>> {
     return await this.userService.update({ id, dto });

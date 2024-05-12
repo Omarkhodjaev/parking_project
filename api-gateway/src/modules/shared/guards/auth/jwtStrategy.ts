@@ -3,8 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { config } from '../../../../common/config';
 import { UserService } from '../../../../modules/user/user.service';
-import { firstValueFrom, from } from 'rxjs';
-import { ICurrentUser } from '../../../../common/types/interfaces';
+import { Observable, firstValueFrom, from, lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -16,8 +15,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: { id: number }): Promise<ICurrentUser> {
-    const foundUserObservable = from(this.userService.findOneById(payload.id));
+  async validate(payload: { id: number }) {
+    const foundUserObservable: Observable<any> =
+      await this.userService.findOneById(payload.id);
 
     const { data: foundUser } = await firstValueFrom(foundUserObservable);
 

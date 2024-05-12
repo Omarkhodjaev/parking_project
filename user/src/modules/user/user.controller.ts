@@ -3,6 +3,7 @@ import { GrpcMethod, Payload } from '@nestjs/microservices';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AllExceptionsFilter } from 'src/lib/AllExceptionFilter';
 import { IUserService } from './interfaces/user.service';
+import { UserAlreadyException } from './exception/user.exception';
 
 @Controller()
 export class UserController {
@@ -10,9 +11,17 @@ export class UserController {
     @Inject('IUserService')
     private readonly userService: IUserService,
   ) {}
-  @UseFilters(new AllExceptionsFilter())
+
   @GrpcMethod('UserService', 'create')
   async create(@Payload() dto: CreateUserDto) {
+    const { data: foundUser } = await this.userService.findOneByPhone(
+      dto.phone,
+    );
+
+    if (foundUser) {
+      throw new UserAlreadyException();
+    }
+
     return await this.userService.create(dto);
   }
 

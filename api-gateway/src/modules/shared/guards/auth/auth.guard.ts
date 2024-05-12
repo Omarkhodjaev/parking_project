@@ -24,6 +24,7 @@ export class AuthGuard implements CanActivate {
     const request: IRequest = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
 
+
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -41,7 +42,8 @@ export class AuthGuard implements CanActivate {
       // Destructure 'data' property from the result
       const { data: foundUser } =
         await firstValueFrom<ResData<UserEntity>>(foundUserObservable);
-
+        
+        
       request['user'] = foundUser;
     } catch (error) {
       throw new UnauthorizedException();
