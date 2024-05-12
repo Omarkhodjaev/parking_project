@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserTariffService } from './user-tariff.service';
 import { CreateUserTariffDto } from './dto/create-user-tariff.dto';
@@ -14,6 +15,8 @@ import { UpdateUserTariffDto } from './dto/update-user-tariff.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../shared/guards/auth/jwt-auth.guard';
 import { RolesGuard } from '../shared/guards/role.guard';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
+import { RedisKeys } from 'src/common/types/enums';
 
 @ApiTags('user-tariff')
 @Controller('user-tariff')
@@ -30,6 +33,9 @@ export class UserTariffController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
+  @UseInterceptors(CacheInterceptor)
+  @CacheKey(RedisKeys.ALL_USER_TARIFFS)
+  @CacheTTL(0)
   findAll() {
     return this.userTariffService.findAll();
   }
