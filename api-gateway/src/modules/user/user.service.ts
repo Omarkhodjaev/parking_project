@@ -12,6 +12,8 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginOrPasswordWrong } from './exception/user.exception';
 import { RedisKeys } from 'src/common/types/enums';
 import { Cache } from '@nestjs/cache-manager';
+import * as bcrypt from 'bcrypt';
+import { config } from 'src/common/config';
 
 @Injectable()
 export class UserService {
@@ -29,6 +31,8 @@ export class UserService {
   }
 
   async register(dto: CreateUserDto) {
+    dto.password = await bcrypt.hash(dto.password, config.saltOrRound);
+
     const dataObservable = this.userService.create({
       ...dto,
     });
@@ -54,7 +58,12 @@ export class UserService {
     const { data: foundUserByPhone } =
       await lastValueFrom<ResData<UserEntity>>(dataObservable);
 
-    if (!foundUserByPhone || foundUserByPhone.password !== dto.password) {
+    const isMatchPassword = await bcrypt.compare(
+      dto.password,
+      foundUserByPhone?.password,
+    );
+
+    if (!isMatchPassword || !foundUserByPhone) {
       throw new LoginOrPasswordWrong();
     }
 

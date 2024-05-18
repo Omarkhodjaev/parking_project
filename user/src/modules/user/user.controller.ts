@@ -1,7 +1,6 @@
-import { Controller, Inject, UseFilters } from '@nestjs/common';
+import { Controller, Inject } from '@nestjs/common';
 import { GrpcMethod, Payload } from '@nestjs/microservices';
 import { CreateUserDto } from './dto/create-user.dto';
-import { AllExceptionsFilter } from 'src/lib/AllExceptionFilter';
 import { IUserService } from './interfaces/user.service';
 import { UserAlreadyException } from './exception/user.exception';
 

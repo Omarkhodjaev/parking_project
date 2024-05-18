@@ -12,4 +12,5 @@ export const config: IConfig = {
   jwtExpiredIn: String(process.env.JWT_EXPIRED_IN),
   redisHost: String(process.env.REDIS_HOST),
   redisPort: Number(process.env.REDIS_PORT),
+  saltOrRound: Number(process.env.SALT_OR_ROUND_KEY),
 };

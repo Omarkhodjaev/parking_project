@@ -12,7 +12,7 @@ import { RoleEnum } from '../../../common/types/enums';
 export class CreateUserDto {
   @ApiProperty({
     type: String,
-    example: '+998997888778',
+    example: '+998991234545',
   })
   @Length(13, 13)
   @IsString()
